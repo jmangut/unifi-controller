@@ -12,9 +12,9 @@ services:
       - MONGO_AUTHSOURCE=admin
     volumes:
       - mongo-data:/data/db
-      - /home/jorge.blanco/workspace/unify-controller/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+      - /home/jorge.blanco/workspace/unifi-controller/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
     restart: unless-stopped
-  
+ 
   unifi-network-application:
     image: lscr.io/linuxserver/unifi-network-application:latest
     container_name: unifi-network-application
@@ -45,20 +45,9 @@ services:
       - 5514:5514/udp #optional
     restart: unless-stopped
 
-  unifi-logs:
-    image: bash
-    container_name: unifi-logs
-    depends_on:
-      - unifi-network-application
-    command: bash -c 'tail -F /unifi/log/*.log'
-    restart: always
-    volumes:
-      - log:/unifi/log
-
 volumes:
   mongo-data:
   unifi-config:
-  log:
 
 #networks:
   #unifi:

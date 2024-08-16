@@ -1,5 +1,6 @@
 [![unifi-network-application](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/unifi-banner.png)](https://ui.com/)
 
+# unifi-controller
 
 ## Application Setup
 
