@@ -24,6 +24,15 @@ else
 fi
 "${mongo_init_bin}" <<EOF
 use ${MONGO_AUTHSOURCE}
+db.createUser(
+  {
+    user: "${MONGO_INITDB_ROOT_USERNAME}",
+    pwd: "${MONGO_INITDB_ROOT_PASSWORD}",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" }, 
+             { role: "dbAdminAnyDatabase", db: "admin" }, 
+             { role: "readWriteAnyDatabase", db: "admin" } ]
+  }
+)
 db.auth("${MONGO_INITDB_ROOT_USERNAME}", "${MONGO_INITDB_ROOT_PASSWORD}")
 db.createUser({
   user: "${MONGO_USER}",

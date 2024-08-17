@@ -1,8 +1,10 @@
 version: '3.3'
 services:
   unifi-db:
-    image: docker.io/mongo:3.6
     container_name: unifi-db
+    image: docker.io/mongo:3.6
+    networks:
+      unifi-controller:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=1234
@@ -16,8 +18,12 @@ services:
     restart: unless-stopped
  
   unifi-network-application:
-    image: lscr.io/linuxserver/unifi-network-application:latest
     container_name: unifi-network-application
+    image: lscr.io/linuxserver/unifi-network-application:latest
+    networks:
+      macvlan:
+        ipv4_address: 192.168.1.201
+      unifi-controller:
     environment:
       - PUID=1000
       - PGID=1000
@@ -49,5 +55,11 @@ volumes:
   mongo-data:
   unifi-config:
 
-#networks:
-  #unifi:
+networks:
+  macvlan:
+    name: macvlan
+    external: true
+  
+  unifi-controller:
+    name: unifi-controller
+    driver: bridge
